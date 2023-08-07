@@ -1,6 +1,8 @@
 """
 move downloaded appimage file to `~/AppImages/`, make it executable and link it to `~/.local/bin/`
 
+pip install typer[all]
+
 """
 import os, shutil
 
