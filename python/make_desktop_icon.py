@@ -34,10 +34,12 @@ def trans_color_round(image_rf:str|Image.Image, mask_color:tuple[int, int, int],
     ])
     return image
 
-def make_icon(image_ref:str, output:str,
-              size:int=96, mask_color:tuple[int,int,int]=(255, 255, 255), color_around:int=3):
+def make_icon(image_ref:str, output:str, size:int=96,
+              mask_color:tuple[int,int,int]=(255, 255, 255), color_around:int=3,
+              disable_mask:bool=False):
     image = fit_shorter_edge(image_ref)
-    image = trans_color_round(image, mask_color, color_around)
+    if not disable_mask:
+        image = trans_color_round(image, mask_color, color_around)
     image = image.resize((size,size))
     image.save(output)
 
