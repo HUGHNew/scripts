@@ -46,7 +46,17 @@ def move_and_link_appimage(file: str, link: str=""):
 
     linkname = link if link else get_link_name(filename)
     print(f"prepare to link {current_file} to {linkname}")
-    os.symlink(current_file, os.path.join(LOCAL_BIN, linkname))
+    linkee = os.path.join(LOCAL_BIN, linkname)
+    if os.path.exists(linkee):
+        if os.path.islink(linkee):
+            os.remove(linkee)
+            target = os.readlink(linkee)
+            print(f"Remove old symlink linking to \033[96m{target}\033[0m")
+        else:
+            print(f"Target file:\033[91m{linkee}\033[0m] is not a symlink. Tackle it manually please.")
+            print(f"abort to link {current_file} to {linkname}")
+            return
+    os.symlink(current_file, linkee)
 
 if __name__ == "__main__":
     typer.run(move_and_link_appimage)

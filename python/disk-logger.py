@@ -70,7 +70,7 @@ def Json(date: str, time: str, msg: LogMsgDict) -> str:
 def get_formatter(format: str) -> FormatFn:
     if format not in Formatters:
         raise ValueError(f"formatter type:{format} does not exist")
-    return Formatters.get(format)
+    return Formatters.get(format) # type: ignore
 
 
 def __compose_log_line(msg: LogMsgDict, format: str):
@@ -82,7 +82,7 @@ def __compose_log_line(msg: LogMsgDict, format: str):
 def track_disk_usage(log_file: str, format: str = "csv", mount_only: bool = True):
     mps = get_mount_points()
     usages = [
-        __compose_log_line(LogMsgDict(**get_disk_usage(mp, 0.7, 0.9, True)), format)
+        __compose_log_line(LogMsgDict(**get_disk_usage(mp, 0.7, 0.9, True)), format) # type: ignore
         + "\n"
         for mp in mps
         if mount_only and osp.ismount(mp)
